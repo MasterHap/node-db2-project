@@ -1,7 +1,12 @@
 // DO YOUR MAGIC
 const express = require("express");
 const Car = require("./cars-model");
-const { checkCarId } = require("./cars-middleware");
+const { 
+    checkCarId,
+    checkCarPayload,
+    checkVinNumberValid,
+    checkVinNumberUnique
+} = require("./cars-middleware");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -17,7 +22,12 @@ router.get("/:id", checkCarId, async (req, res, next) => {
   res.json(req.car)
 });
 
-router.post("/", async (req, res, next) => {
+router.post(
+    "/", 
+    checkCarPayload,
+    checkVinNumberValid,
+    checkVinNumberUnique,
+    async (req, res, next) => {
   res.json("posting new car");
 });
 
